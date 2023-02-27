@@ -8,6 +8,8 @@ def call(Map config, String action="init"){
     def workDir = config.workDir ?: error("No working Directory provided")
     def terraformDockerImage = "msshahanshah/tools:terrform02"
     def imgTag = config.imgTag ?: "${param.ImageTag}"
+    def action = config.action
+    def extras = config.extraParameter ?: ""
 
 
     withCredentials([string(credentialsId: "${secretToken}", variable: "setup")]) {
@@ -17,14 +19,9 @@ def call(Map config, String action="init"){
                     """,
                     returnStdout: true
                 ).trim()
-        if (action == "init"){
-         sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform init"   
-        }
-        else if(action == "plan"){
-             sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform plan -var image_number=${imgTag}"
-        }
-        else (action == "apply"){
-             //sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=accel -e AWS_REGION=us-east-1 -v ${workspace}/:/code -w /code/accel-ec2/services-prod/website-comparison msshahanshah/tools:terrform01 terraform apply -var image_number=${img_tag}"
-        }    
+         sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform ${action} ${extraParameter}"   
+         //sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform plan -var image_number=${imgTag}"
+         //sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=accel -e AWS_REGION=us-east-1 -v ${workspace}/:/code -w /code/accel-ec2/services-prod/website-comparison msshahanshah/tools:terrform01 terraform apply -var image_number=${img_tag}"
+        
         }
 }
