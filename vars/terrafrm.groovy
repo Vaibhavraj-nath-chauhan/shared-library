@@ -18,7 +18,7 @@ def call(Map config){
 //                     """,
 //                     returnStdout: true
 //                 ).trim()
-                sh "echo ${varName} > data"
+                sh "echo ${varName} > data1"
 //                 sh "set +x; docker run  ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} sleep 10000"
 //                 sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform plan -var image_number=${imgTag}"
                 //sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=accel -e AWS_REGION=us-east-1 -v ${workspace}/:/code -w /code/accel-ec2/services-prod/website-comparison msshahanshah/tools:terrform01 terraform apply -var image_number=${img_tag}"
