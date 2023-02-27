@@ -8,7 +8,7 @@ def call(Map config){
     def awsRegion = config.awsRegion ?: error("No region provided")
     def workDir = config.workDir ?: error("No working Directory provided")
     def dockerImage = config.dockerImage ?: "msshahanshah/tools:terrform02"
-    def imgTag = config.imgTag ?: "${env.BUILD_ID}"
+    def imgTag = config.imgTag ?: "${param.ImageTag}"
 
 
     withCredentials([string(credentialsId: secretToken, variable: varName)]) {
