@@ -8,8 +8,8 @@ def call(Map config, String action="init"){
     def workDir = config.workDir ?: error("No working Directory provided")
     def terraformDockerImage = "msshahanshah/tools:terrform02"
     def imgTag = config.imgTag ?: "${param.ImageTag}"
-    def action = config.action
-    def extras = config.extraParameter ?: ""
+    def action = config.action ?: "${}"
+    def extraParameter = config.extraParameter ?: ""
 
 
     withCredentials([string(credentialsId: "${secretToken}", variable: "setup")]) {
