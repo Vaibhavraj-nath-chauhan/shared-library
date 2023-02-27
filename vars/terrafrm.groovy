@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-def call(Map config, String action="init"){
+def call(Map config, String init="init"){
 
     def secretToken = config.secretToken ?:error("No token Provided")
     def awsProfile = config.awsProfile ?: error("No prfile provided")
@@ -17,10 +17,10 @@ def call(Map config, String action="init"){
                     """,
                     returnStdout: true
                 ).trim()
-        if (action == "init"){
+        if (init == "init"){
          sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform init"   
         }
-        else if(action == "plan"){
+        else if(init == "plan"){
              sh "set +x; docker run --rm ${AWS_CREDENTIALS} -e AWS_PROFILE=${awsProfile} -e AWS_REGION=${awsRegion} -v ${workspace}/:/code -w ${workDir} ${terraformDockerImage} terraform plan -var image_number=${imgTag}"
         }
        
