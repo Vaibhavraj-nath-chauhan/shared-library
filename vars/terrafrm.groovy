@@ -14,7 +14,7 @@ def call(Map config){
     withCredentials([string(credentialsId: secretToken, variable: varName)]) {
                 def AWS_CREDENTIALS = sh (
                     script: """
-                        echo \${varName} | awk '{print \"-e\", \$1, \"-e\", \$2}'
+                        echo ${varName} | awk '{print \"-e\", \$1, \"-e\", \$2}'
                     """,
                     returnStdout: true
                 ).trim()
