@@ -11,7 +11,7 @@ def call(Map config){
     def imgTag = config.imgTag ?: "${param.ImageTag}"
 
 
-    withCredentials([file(credentialsId: "${secretToken}", variable: "setup")]) {
+    withCredentials([string(credentialsId: "${secretToken}", variable: "setup")]) {
                 def AWS_CREDENTIALS = sh (
                     script: """
                         echo ${setup} | awk '{print \"-e\", \$1, \"-e\", \$2}'
